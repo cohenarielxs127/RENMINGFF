@@ -1,67 +1,835 @@
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
   <meta charset="UTF-8" />
+  <title>RENMINGFF — Vente à distance sur catalogue général</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CAP Garland, LLC</title>
+  <meta name="description" content="RENMINGFF - Vente à distance sur catalogue général. Contact: contact@renmingff.shop / 33753036584. Adresse: Boulevard des Bouvets 92000 Nanterre.">
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #f0f0f0;
-      color: #333;
+    :root{
+      --bg:#121212;            /* dark grey */
+      --bg2:#0b0b0b;           /* near black */
+      --card:#1a1a1a;
+      --line: rgba(156,163,175,.18);
+      --text:#f3f4f6;
+      --muted:#cbd5e1;
+      --muted2:#9ca3af;
+      --orange:#c2410c;        /* deep orange */
+      --orange2:#f97316;       /* bright orange */
+      --orange3:#7c2d12;       /* darker orange */
+      --shadow: 0 22px 60px rgba(0,0,0,.65);
+      --radius: 22px;
     }
-    header {
-      background-color: #003366;
-      color: white;
-      padding: 30px 20px;
-      text-align: center;
+
+    *{box-sizing:border-box;}
+    html,body{height:100%;}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(900px 520px at 18% 14%, rgba(194,65,12,.18), transparent 60%),
+        radial-gradient(700px 420px at 82% 10%, rgba(156,163,175,.12), transparent 60%),
+        radial-gradient(900px 650px at 55% 90%, rgba(249,115,22,.10), transparent 65%),
+        linear-gradient(180deg, var(--bg), var(--bg2));
+      overflow-x:hidden;
     }
-    section {
-      max-width: 800px;
-      margin: 40px auto;
-      padding: 0 20px;
+    a{color:inherit;text-decoration:none;}
+    img{max-width:100%;display:block;}
+
+    /* ---------- BACKGROUND "EMBERS" (new animation) ---------- */
+    .embers{
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      z-index:-1;
+      opacity:.65;
+      overflow:hidden;
     }
-    h1, h2 {
-      color: #003366;
+    .ember{
+      position:absolute;
+      width:10px; height:10px;
+      border-radius:999px;
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.25), rgba(249,115,22,.95) 40%, rgba(124,45,18,0) 72%);
+      filter: blur(.2px);
+      animation: rise linear infinite;
+      opacity:.85;
     }
-    .contact {
-      background: #fff;
-      padding: 20px;
-      border-left: 5px solid #003366;
-      margin-top: 30px;
+    @keyframes rise{
+      0%   { transform: translateY(30vh) translateX(0) scale(.8); opacity:0; }
+      10%  { opacity:.9; }
+      65%  { opacity:.7; }
+      100% { transform: translateY(-120vh) translateX(80px) scale(1.25); opacity:0; }
     }
-    footer {
-      background-color: #003366;
-      color: white;
-      text-align: center;
-      padding: 15px;
-      margin-top: 50px;
+
+    /* ---------- HEADER ---------- */
+    header{
+      position: sticky;
+      top:0; z-index:50;
+      backdrop-filter: blur(14px);
+      background: linear-gradient(180deg, rgba(18,18,18,.88), rgba(18,18,18,.55), transparent);
+      border-bottom: 1px solid rgba(156,163,175,.14);
+    }
+    .nav{
+      max-width:1140px;
+      margin:0 auto;
+      padding: 14px 18px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      min-width:240px;
+    }
+
+    /* flame-like logo (new) */
+    .logo{
+      width:42px; height:42px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, rgba(194,65,12,.95), rgba(249,115,22,.35));
+      box-shadow: 0 18px 55px rgba(249,115,22,.18);
+      position:relative;
+      overflow:hidden;
+    }
+    .logo::before{
+      content:"";
+      position:absolute;
+      inset:-40%;
+      background:
+        radial-gradient(circle at 30% 30%, rgba(255,255,255,.16), transparent 55%),
+        radial-gradient(circle at 55% 70%, rgba(249,115,22,.30), transparent 60%);
+      animation: swirl 3.2s ease-in-out infinite alternate;
+    }
+    @keyframes swirl{
+      0%{ transform: rotate(-10deg) translateX(-6%); }
+      100%{ transform: rotate(10deg) translateX(6%); }
+    }
+
+    .brand h1{
+      margin:0;
+      font-size:.98rem;
+      letter-spacing:.16em;
+      text-transform:uppercase;
+    }
+    .brand p{
+      margin:3px 0 0;
+      font-size:.72rem;
+      letter-spacing:.22em;
+      text-transform:uppercase;
+      color: rgba(203,213,225,.72);
+    }
+
+    .links{
+      display:flex;
+      gap:18px;
+      font-size:.82rem;
+      letter-spacing:.22em;
+      text-transform:uppercase;
+      color: rgba(243,244,246,.78);
+    }
+    .links a{
+      opacity:.85;
+      transition: opacity .15s ease, transform .15s ease;
+    }
+    .links a:hover{
+      opacity:1;
+      transform: translateY(-1px);
+    }
+    @media (max-width: 920px){ .links{display:none;} }
+
+    .tag{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:8px 12px;
+      border-radius:999px;
+      border:1px solid rgba(194,65,12,.35);
+      background: rgba(26,26,26,.60);
+      font-size:.72rem;
+      letter-spacing:.22em;
+      text-transform:uppercase;
+      white-space:nowrap;
+      color: rgba(255,237,213,.92);
+    }
+    .tag b{
+      width:8px; height:8px;
+      border-radius:999px;
+      background: var(--orange2);
+      box-shadow: 0 0 18px rgba(249,115,22,.85);
+      display:inline-block;
+      animation: blink 1.35s ease-in-out infinite;
+    }
+    @keyframes blink{
+      0%,100%{ transform:scale(1); opacity:.75; }
+      50%{ transform:scale(1.35); opacity:1; }
+    }
+
+    /* ---------- SECTIONS ---------- */
+    .section{
+      max-width:1140px;
+      margin:0 auto;
+      padding: 44px 18px;
+    }
+
+    /* ---------- HERO (totally different: split + typewriter) ---------- */
+    .hero{
+      display:grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 14px;
+      align-items: stretch;
+    }
+    @media (max-width: 980px){
+      .hero{ grid-template-columns: 1fr; }
+    }
+
+    .heroLeft{
+      border-radius: var(--radius);
+      border:1px solid rgba(156,163,175,.16);
+      background: rgba(26,26,26,.55);
+      box-shadow: var(--shadow);
+      padding: 18px;
+      position:relative;
+      overflow:hidden;
+    }
+
+    /* animated "heat" gradient line */
+    .heroLeft::after{
+      content:"";
+      position:absolute;
+      left:-40%;
+      top:0;
+      width:40%;
+      height:100%;
+      background: linear-gradient(90deg, transparent, rgba(249,115,22,.14), transparent);
+      transform: skewX(-14deg);
+      animation: sweep 4.1s ease-in-out infinite;
+      opacity:.8;
+      pointer-events:none;
+    }
+    @keyframes sweep{
+      0%{ left:-55%; opacity:0; }
+      18%{ opacity:.9; }
+      60%{ opacity:.35; }
+      100%{ left:140%; opacity:0; }
+    }
+
+    .kicker{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:8px 12px;
+      border-radius:999px;
+      border:1px solid rgba(249,115,22,.22);
+      background: rgba(18,18,18,.45);
+      font-size:.76rem;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      color: rgba(255,237,213,.92);
+      width:fit-content;
+    }
+    .kicker span{
+      width:26px; height:26px;
+      border-radius:999px;
+      display:grid; place-items:center;
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.16), rgba(249,115,22,.75));
+      box-shadow: 0 0 18px rgba(249,115,22,.35);
+    }
+
+    .title{
+      margin: 12px 0 0;
+      font-size: clamp(2.0rem, 4.1vw, 3.1rem);
+      letter-spacing:.06em;
+      text-transform:uppercase;
+      line-height:1.06;
+    }
+    .title .grad{
+      background: linear-gradient(90deg, #fff7ed, #fdba74, #f97316);
+      -webkit-background-clip:text;
+      color:transparent;
+    }
+
+    /* typewriter line (new) */
+    .type{
+      margin-top: 10px;
+      font-size: .95rem;
+      color: rgba(203,213,225,.78);
+      line-height:1.7;
+      max-width: 720px;
+      position:relative;
+    }
+    .type .cursor{
+      display:inline-block;
+      width:10px;
+      height:1.05em;
+      border-left: 2px solid rgba(249,115,22,.95);
+      margin-left:6px;
+      transform: translateY(2px);
+      animation: caret .8s steps(1) infinite;
+    }
+    @keyframes caret{ 50%{opacity:0;} }
+
+    .cta{
+      margin-top: 16px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+    }
+
+    /* new button styles */
+    .btn{
+      border:none;
+      cursor:pointer;
+      border-radius: 18px;
+      padding: 12px 14px;
+      font-size:.82rem;
+      letter-spacing:.16em;
+      text-transform:uppercase;
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      transition: transform .12s ease, box-shadow .12s ease, background .12s ease, border-color .12s ease;
+      user-select:none;
+    }
+    .btnPrimary{
+      color: #120f0d;
+      font-weight:900;
+      background: linear-gradient(135deg, rgba(249,115,22,.98), rgba(194,65,12,.55));
+      box-shadow: 0 22px 70px rgba(249,115,22,.18);
+      position:relative;
+      overflow:hidden;
+    }
+    /* glow sweep (unique) */
+    .btnPrimary::after{
+      content:"";
+      position:absolute;
+      top:-60%;
+      left:-40%;
+      width:70%;
+      height:220%;
+      transform: rotate(20deg);
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.25), transparent);
+      animation: btnGlow 2.6s linear infinite;
+      opacity:.7;
+    }
+    @keyframes btnGlow{
+      0%{ transform: translateX(-140%) rotate(20deg); opacity:0; }
+      15%{ opacity:.9; }
+      100%{ transform: translateX(240%) rotate(20deg); opacity:0; }
+    }
+    .btnPrimary:hover{
+      transform: translateY(-2px);
+      box-shadow: 0 28px 85px rgba(249,115,22,.26);
+    }
+    .btnGhost{
+      background: rgba(18,18,18,.55);
+      color: rgba(243,244,246,.92);
+      border: 1px solid rgba(156,163,175,.18);
+    }
+    .btnGhost:hover{ transform: translateY(-2px); background: rgba(18,18,18,.72); }
+
+    .meta{
+      margin-top: 14px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      font-size:.8rem;
+      color: rgba(203,213,225,.78);
+    }
+    .meta .item{
+      padding: 10px 12px;
+      border-radius: 16px;
+      border:1px solid rgba(156,163,175,.16);
+      background: rgba(18,18,18,.45);
+    }
+    .meta strong{ color: rgba(255,247,237,.95); }
+
+    /* ---------- RIGHT: flip cards (3D) ---------- */
+    .heroRight{
+      display:grid;
+      gap: 12px;
+    }
+    .flipRow{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    @media (max-width: 520px){
+      .flipRow{ grid-template-columns: 1fr; }
+    }
+
+    .flip{
+      perspective: 1000px;
+    }
+    .flipInner{
+      position:relative;
+      width:100%;
+      aspect-ratio: 4 / 3;
+      border-radius: var(--radius);
+      transform-style: preserve-3d;
+      transition: transform .65s cubic-bezier(.2,.8,.2,1);
+      box-shadow: var(--shadow);
+    }
+    .flip:hover .flipInner{
+      transform: rotateY(180deg);
+    }
+    .face{
+      position:absolute;
+      inset:0;
+      border-radius: var(--radius);
+      overflow:hidden;
+      border:1px solid rgba(156,163,175,.14);
+      backface-visibility: hidden;
+      background: rgba(26,26,26,.55);
+    }
+    .face img{
+      width:100%; height:100%;
+      object-fit: cover;
+      filter: contrast(1.05) saturate(1.06);
+      transform: scale(1.03);
+    }
+    .back{
+      transform: rotateY(180deg);
+      display:flex;
+      flex-direction:column;
+      justify-content:flex-end;
+      padding: 14px;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(249,115,22,.18), transparent 55%),
+        linear-gradient(180deg, rgba(26,26,26,.88), rgba(18,18,18,.96));
+    }
+    .back h3{
+      margin:0 0 6px;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      font-size:.95rem;
+      color: rgba(255,237,213,.95);
+    }
+    .back p{
+      margin:0;
+      color: rgba(203,213,225,.78);
+      line-height:1.6;
+      font-size:.86rem;
+    }
+
+    /* ---------- SERVICES (cards appear with bounce) ---------- */
+    .titleSmall{
+      margin:0 0 10px;
+      color: rgba(203,213,225,.72);
+      font-size:.78rem;
+      letter-spacing:.28em;
+      text-transform:uppercase;
+    }
+    .h3{
+      margin:0 0 10px;
+      font-size: 1.75rem;
+      letter-spacing:.04em;
+    }
+    .sub{
+      margin:0;
+      color: rgba(203,213,225,.78);
+      line-height:1.7;
+      max-width: 780px;
+    }
+
+    .cards{
+      margin-top: 18px;
+      display:grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap:12px;
+    }
+    @media (max-width: 920px){ .cards{ grid-template-columns: repeat(2, 1fr);} }
+    @media (max-width: 620px){ .cards{ grid-template-columns: 1fr;} }
+
+    .card{
+      border-radius: var(--radius);
+      border:1px solid rgba(156,163,175,.16);
+      background: rgba(26,26,26,.55);
+      padding: 14px;
+      position:relative;
+      overflow:hidden;
+      transform: translateY(10px) scale(.985);
+      opacity:0;
+    }
+    .card.on{
+      animation: pop .7s cubic-bezier(.2,.9,.2,1) both;
+    }
+    @keyframes pop{
+      0%{ opacity:0; transform: translateY(14px) scale(.97); }
+      70%{ opacity:1; transform: translateY(-2px) scale(1.01); }
+      100%{ opacity:1; transform: translateY(0) scale(1); }
+    }
+    .card::before{
+      content:"";
+      position:absolute;
+      inset:-40%;
+      background: radial-gradient(circle at top left, rgba(249,115,22,.14), transparent 55%);
+      opacity:.9;
+      pointer-events:none;
+    }
+    .card .top{
+      position:relative;
+      z-index:1;
+      display:flex;
+      gap:10px;
+      align-items:center;
+      margin-bottom:8px;
+    }
+    .icon{
+      width:38px; height:38px;
+      border-radius: 16px;
+      display:grid; place-items:center;
+      background: rgba(249,115,22,.14);
+      border:1px solid rgba(249,115,22,.22);
+      color: rgba(255,237,213,.95);
+      font-size: 1rem;
+    }
+    .card h4{
+      position:relative;
+      z-index:1;
+      margin:0;
+      text-transform:uppercase;
+      letter-spacing:.10em;
+      font-size: .95rem;
+    }
+    .card p{
+      position:relative;
+      z-index:1;
+      margin:0;
+      color: rgba(203,213,225,.78);
+      line-height:1.65;
+      font-size:.9rem;
+    }
+
+    /* ---------- CONTACT ---------- */
+    .contactGrid{
+      margin-top: 18px;
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:12px;
+    }
+    @media (max-width: 900px){
+      .contactGrid{ grid-template-columns: 1fr; }
+    }
+    .box{
+      border-radius: var(--radius);
+      border:1px solid rgba(156,163,175,.16);
+      background: rgba(26,26,26,.55);
+      padding: 14px;
+    }
+    .row{ display:flex; flex-direction:column; gap:4px; margin-bottom:10px; }
+    .label{
+      font-size:.72rem;
+      letter-spacing:.22em;
+      text-transform:uppercase;
+      color: rgba(203,213,225,.65);
+    }
+    .value{
+      color: rgba(243,244,246,.94);
+      font-size:.98rem;
+    }
+    .value a{ color: rgba(253,186,116,.96); }
+
+    footer{
+      border-top: 1px solid rgba(156,163,175,.12);
+      background: rgba(11,11,11,.78);
+      padding: 18px;
+      color: rgba(203,213,225,.62);
+      font-size:.82rem;
+    }
+    .foot{
+      max-width:1140px;
+      margin:0 auto;
+      display:flex;
+      flex-wrap:wrap;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+    }
+
+    /* ---------- REVEAL ---------- */
+    .reveal{
+      opacity:0;
+      transform: translateY(14px);
+      transition: opacity .75s ease, transform .75s ease;
+    }
+    .reveal.on{
+      opacity:1;
+      transform: translateY(0);
     }
   </style>
 </head>
+
 <body>
+  <!-- Ember background (auto-generated via CSS + JS) -->
+  <div class="embers" id="embers" aria-hidden="true"></div>
+
   <header>
-    <h1>CAP Garland, LLC</h1>
-    <p>Private Investment Fund</p>
+    <div class="nav">
+      <div class="brand">
+        <div class="logo" aria-hidden="true"></div>
+        <div>
+          <h1>RENMINGFF</h1>
+          <p>Vente à distance • Catalogue général</p>
+        </div>
+      </div>
+
+      <nav class="links" aria-label="Navigation">
+        <a href="#activite">Activité</a>
+        <a href="#galerie">Galerie</a>
+        <a href="#contact">Contact</a>
+      </nav>
+
+      <div class="tag"><b></b> Service en préparation</div>
+    </div>
   </header>
 
-  <section>
-    <h2>About Us</h2>
-    <p>CAP Garland, LLC is a Washington-based private investment fund focused on delivering value through diversified investment strategies.</p>
+  <main>
+    <!-- HERO -->
+    <section class="section">
+      <div class="hero">
+        <div class="heroLeft reveal">
+          <div class="kicker"><span>🔥</span> Boutique en ligne • Catalogue général</div>
 
-    <h2>Contact</h2>
-    <div class="contact">
-      <p><strong>Address:</strong> 915 W 2nd Ave, Spokane, WA 99201</p>
-      <p><strong>Email:</strong> <a href="mailto:ryanberg@capgarland.shop">ryanberg@capgarland.shop</a></p>
-      <p><strong>Phone:</strong> (509) 822-3850</p>
-    </div>
-  </section>
+          <h2 class="title">
+            RENMINGFF<br />
+            <span class="grad">Vente à distance</span> moderne.
+          </h2>
+
+          <p class="type" id="typeLine"></p><span class="cursor" aria-hidden="true"></span>
+
+          <div class="cta">
+            <a class="btn btnPrimary" href="#contact">Nous contacter <span>→</span></a>
+            <a class="btn btnGhost" href="#activite">Voir l’activité</a>
+          </div>
+
+          <div class="meta">
+            <div class="item">Email : <strong>contact@renmingff.shop</strong></div>
+            <div class="item">Téléphone : <strong>33753036584</strong></div>
+            <div class="item">Adresse : <strong>Boulevard des Bouvets 92000 Nanterre</strong></div>
+          </div>
+        </div>
+
+        <div class="heroRight">
+          <div class="flipRow reveal">
+            <div class="flip">
+              <div class="flipInner">
+                <div class="face front">
+                  <img src="https://images.adsttc.com/media/images/5ff4/44cc/63c0/17cd/f900/03a2/large_jpg/SOCIAL-GRAPHICS_-02.jpg?1609843898" alt="Design moderne - visuel 1">
+                </div>
+                <div class="face back">
+                  <h3>Catalogue & sélection</h3>
+                  <p>Une boutique pensée pour une navigation simple et un choix rapide de produits.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="flip">
+              <div class="flipInner">
+                <div class="face front">
+                  <img src="https://i.pinimg.com/736x/38/ca/da/38cadaf2dc59f5779ac1707da185a329.jpg" alt="Produits - visuel 2">
+                </div>
+                <div class="face back">
+                  <h3>Commande à distance</h3>
+                  <p>Process clair : choisir, commander, recevoir — avec un service en cours de préparation.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flipRow reveal">
+            <div class="flip">
+              <div class="flipInner">
+                <div class="face front">
+                  <img src="https://i.pinimg.com/736x/07/d7/94/07d794e4859375b8755422deac2ef8ce.jpg" alt="Lifestyle - visuel 3">
+                </div>
+                <div class="face back">
+                  <h3>Expérience premium</h3>
+                  <p>Design moderne, couleurs chaudes, et une identité claire pour RENMINGFF.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="flip">
+              <div class="flipInner">
+                <div class="face back" style="justify-content:center;">
+                  <h3 style="margin-bottom:10px;">Statut</h3>
+                  <p style="font-size:.9rem;">
+                    Service en préparation.<br>
+                    Contactez-nous pour toute demande ou information.
+                  </p>
+                </div>
+                <div class="face front" style="background:linear-gradient(180deg, rgba(26,26,26,.9), rgba(11,11,11,.98));">
+                  <div style="height:100%; display:grid; place-items:center; padding:14px;">
+                    <div style="text-align:center;">
+                      <div style="font-size:1.1rem; letter-spacing:.14em; text-transform:uppercase; color:rgba(255,237,213,.92);">
+                        RENMINGFF
+                      </div>
+                      <div style="margin-top:8px; color:rgba(203,213,225,.75); line-height:1.6;">
+                        Vente à distance<br>sur catalogue général
+                      </div>
+                      <div style="margin-top:12px; display:inline-flex; align-items:center; gap:10px; padding:8px 12px; border-radius:999px; border:1px solid rgba(249,115,22,.28); background: rgba(249,115,22,.10); color:rgba(253,186,116,.95); letter-spacing:.16em; text-transform:uppercase; font-size:.72rem;">
+                        <span style="width:8px;height:8px;border-radius:999px;background:var(--orange2);box-shadow:0 0 18px rgba(249,115,22,.85);"></span>
+                        Coming soon
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ACTIVITE -->
+    <section id="activite" class="section">
+      <p class="titleSmall reveal">Activité</p>
+      <h3 class="h3 reveal">Vente à distance sur catalogue général</h3>
+      <p class="sub reveal">
+        RENMINGFF propose une activité de vente à distance : présentation de produits sur catalogue,
+        sélection simple, et service client accessible par email/téléphone.
+      </p>
+
+      <div class="cards">
+        <div class="card">
+          <div class="top">
+            <div class="icon">🧾</div>
+            <h4>Catalogue général</h4>
+          </div>
+          <p>Une offre variée, organisée pour faciliter la recherche et la comparaison.</p>
+        </div>
+
+        <div class="card">
+          <div class="top">
+            <div class="icon">📦</div>
+            <h4>Commande à distance</h4>
+          </div>
+          <p>Process pensé pour une commande claire et rapide, avec suivi client.</p>
+        </div>
+
+        <div class="card">
+          <div class="top">
+            <div class="icon">🤝</div>
+            <h4>Support & contact</h4>
+          </div>
+          <p>Un contact direct pour les demandes : informations, assistance et suivi.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- GALERIE -->
+    <section id="galerie" class="section">
+      <p class="titleSmall reveal">Galerie</p>
+      <h3 class="h3 reveal">Aperçu visuel</h3>
+      <p class="sub reveal">Une ambiance moderne, chaleureuse, et orientée expérience utilisateur.</p>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="section">
+      <p class="titleSmall reveal">Contact</p>
+      <h3 class="h3 reveal">Une question ? Écrivez-nous.</h3>
+      <p class="sub reveal">Notre service est en préparation. Contactez RENMINGFF pour toute demande.</p>
+
+      <div class="contactGrid">
+        <div class="box reveal">
+          <div class="row">
+            <div class="label">Entreprise</div>
+            <div class="value">RENMINGFF</div>
+          </div>
+          <div class="row">
+            <div class="label">Email</div>
+            <div class="value"><a href="mailto:contact@renmingff.shop">contact@renmingff.shop</a></div>
+          </div>
+          <div class="row">
+            <div class="label">Téléphone</div>
+            <div class="value"><a href="tel:+33753036584">33753036584</a></div>
+          </div>
+          <div class="row">
+            <div class="label">Adresse</div>
+            <div class="value">Boulevard des Bouvets 92000 Nanterre</div>
+          </div>
+        </div>
+
+        <div class="box reveal">
+          <div class="row">
+            <div class="label">Email rapide</div>
+            <div class="value" style="color:rgba(203,213,225,.78); line-height:1.7;">
+              “Bonjour RENMINGFF, je souhaite avoir des informations sur votre catalogue et les modalités de commande.”
+            </div>
+          </div>
+
+          <a class="btn btnPrimary"
+             href="mailto:contact@renmingff.shop?subject=Vente%20%C3%A0%20distance%20-%20Catalogue%20g%C3%A9n%C3%A9ral&body=Bonjour%20RENMINGFF%2C%0A%0AJe%20souhaite%20avoir%20des%20informations%20sur%20votre%20catalogue%20et%20les%20modalit%C3%A9s%20de%20commande.%0A%0AMerci%20!">
+            Envoyer un email <span>✉️</span>
+          </a>
+
+          <div style="margin-top:12px; color: rgba(203,213,225,.70); font-size:.82rem; letter-spacing:.08em;">
+            Statut : <span style="color:rgba(253,186,116,.96); font-weight:800;">Service en préparation</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
 
   <footer>
-    &copy; 2025 CAP Garland, LLC. All rights reserved.
+    <div class="foot">
+      <span>© <span id="year"></span> RENMINGFF — Vente à distance sur catalogue général</span>
+      <span>contact@renmingff.shop • 33753036584 • Nanterre</span>
+    </div>
   </footer>
+
+  <script>
+    // Footer year
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // Generate ember particles (unique animation)
+    const embers = document.getElementById("embers");
+    const emberCount = 18;
+
+    for (let i = 0; i < emberCount; i++){
+      const e = document.createElement("div");
+      e.className = "ember";
+      const left = Math.random() * 100;
+      const size = 6 + Math.random() * 10;
+      const dur = 6 + Math.random() * 8;
+      const delay = Math.random() * 6;
+
+      e.style.left = left + "vw";
+      e.style.bottom = (-10 - Math.random() * 30) + "vh";
+      e.style.width = size + "px";
+      e.style.height = size + "px";
+      e.style.animationDuration = dur + "s";
+      e.style.animationDelay = delay + "s";
+      embers.appendChild(e);
+    }
+
+    // Typewriter (new)
+    const line = "RENMINGFF développe sa boutique et son service en ligne. En attendant, vous pouvez nous contacter pour toute demande (catalogue, informations, commandes).";
+    const typeEl = document.getElementById("typeLine");
+    let idx = 0;
+
+    function type(){
+      typeEl.textContent = line.slice(0, idx++);
+      if(idx <= line.length) requestAnimationFrame(type);
+    }
+    type();
+
+    // Reveal on scroll
+    const revealEls = document.querySelectorAll(".reveal, .card");
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){
+          e.target.classList.add("on");
+          io.unobserve(e.target);
+        }
+      });
+    }, {threshold: 0.12});
+    revealEls.forEach(el => io.observe(el));
+  </script>
 </body>
 </html>
